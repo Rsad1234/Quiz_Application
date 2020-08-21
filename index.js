@@ -15,7 +15,9 @@ app.get("/", function (request, response)
 {
     response.status(200);
     response.type('text/html');
-    response.send("Welcome!");
+    response.render("index",
+        {
+        });
 });
 
 //404 Page
