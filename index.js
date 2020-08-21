@@ -21,7 +21,6 @@ app.use(passport.session());
 //Engine STOP
 
 
-console.log(sql.QueryUser(0));
 
 app.get("/", function (request, response)
 {
@@ -31,7 +30,7 @@ app.get("/", function (request, response)
         {
         });
 });
-
+//START LOGIN
 app.get("/login", function (request, response)
 {
     response.status(200);
@@ -40,7 +39,20 @@ app.get("/login", function (request, response)
         {
         });
 });
+//END LOGIN
+//START REGISTRATION
+app.get("/register", function(request, response)
+{
 
+    response.render("registerpage");
+
+});
+app.post("/register", passport.authenticate('local-signup',
+{
+    successRedirect : '/',
+    failureRedirect : '/register',
+}));
+//END REGISTRATION
 //404 Page
 app.use(function(request, response)
 {
