@@ -2,14 +2,26 @@ var express = require("express");
 var mustache = require("mustache-express");
 var path = require("path");
 var passport = require("passport");
-var app = express();
+//SQL Initialise START
+var SQL = require('./js/sql')
+let sql = new SQL
+//SQL STOP
 
+//Engine Configuration START
+var app = express();
 app.engine('mustache', mustache());
 app.set('view engine', 'mustache');
 app.set('views', path.resolve(__dirname, 'mustache'));
 app.set('port', process.env.PORT || 3000);
 app.use(express.urlencoded());
+    //passport initialise START
+app.use(passport.initialize());
+app.use(passport.session());
+    //passport STOP
+//Engine STOP
 
+
+console.log(sql.QueryUser(0));
 
 app.get("/", function (request, response)
 {
