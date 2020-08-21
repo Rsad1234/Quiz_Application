@@ -1,27 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navBar">
-  <a class="navbar-brand active" href="/">Scheduling application</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand active" href="/">Scheduling application</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse inline" id="navbarSupportedContent">
-  </div>
-      <ul class="navbar-nav mr-auto">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Profile
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-        {{#login}}
-          <a class="dropdown-item" href="/login" id="loginButton">Login</a>
-        {{/login}}
-        {{^login}}
-          <a class="dropdown-item" href="/logout" id="logoutButton">Logout</a>
-        {{/login}}
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/new-entry" id="createAccountButton">Create An Account</a>
-          <a class="dropdown-item" href="/loginData" id="viewScheduleButton">View Schedule</a>
-        </div>
-      </li>
+    </button>
+    <div class="collapse navbar-collapse inline" id="navbarSupportedContent">
+    </div>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Profile
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                {{#login}}
+                    <a class="dropdown-item" href="/logout" id="logoutButton">Logout</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/loginData" id="viewScheduleButton">View Schedule</a>
+                {{/login}}
+                {{^login}}
+                    <a class="dropdown-item" href="/login" id="loginButton">Login</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/new-entry" id="createAccountButton">Create An Account</a>
+                {{/login}}
+            </div>
+        </li>
     </ul>
 </nav>
