@@ -32,6 +32,15 @@ app.get("/", function (request, response)
         });
 });
 
+app.get("/login", function (request, response)
+{
+    response.status(200);
+    response.type('text/html');
+    response.render("loginpage",
+        {
+        });
+});
+
 //404 Page
 app.use(function(request, response)
 {
