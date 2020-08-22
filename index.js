@@ -40,6 +40,12 @@ app.get("/login", function (request, response)
         {
         });
 });
+app.post("/login", passport.authenticate('local-login',
+{
+    successRedirect : '/',
+    failureRedirect : '/login',
+    failureFlash : true
+}));
 //END LOGIN
 //START REGISTRATION
 app.get("/register", function(request, response)
