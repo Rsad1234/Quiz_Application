@@ -78,6 +78,13 @@ app.post("/register", passport.authenticate('local-signup',
     failureRedirect : '/register',
 }));
 //END REGISTRATION
+//START Logout
+app.get("/logout", function(request, response)
+{
+    request.logout();
+    response.redirect('/')
+});
+//END Logout
 //404 Page
 app.use(function(request, response)
 {

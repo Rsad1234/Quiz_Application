@@ -16,11 +16,11 @@ module.exports = function(passport)
     // used to serialize the user for the session
     passport.serializeUser(function(user, done)
     {
-        done(null, user.user_id);
+        done(null, user.username);
     });
     passport.deserializeUser(function(user, done)
     {
-        sql.QueryUser(user).then((result) =>
+        sql.QueryUserName(user).then((result) =>
         {
             done(null, result[0].user_id)
         }).catch((error) =>

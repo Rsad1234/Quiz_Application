@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navBar">
-    <a class="navbar-brand active" href="/">Scheduling application</a>
+    <a class="navbar-brand active" href="/">Quiz & Go</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
@@ -14,7 +14,7 @@
                 {{#login}}
                     <a class="dropdown-item" href="/logout" id="logoutButton">Logout</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/loginData" id="viewScheduleButton">View Schedule</a>
+                    <a class="dropdown-item" href="/:username" id="viewScheduleButton">View Results</a>
                 {{/login}}
                 {{^login}}
                     <a class="dropdown-item" href="/login" id="loginButton">Login</a>
