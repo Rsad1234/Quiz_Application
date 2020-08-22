@@ -30,13 +30,15 @@ module.exports = function(passport)
     });
 
 
-    passport.use('local-signup', new LocalStrategy({
+    passport.use('local-signup', new LocalStrategy(
+    {
         // by default, local strategy uses username and password, we will override with username
         usernameField : 'username',
         passwordField : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
-    function(req, username, password, done) {
+    function(req, username, password, done)
+    {
         // find a user whose username is the same as the forms username
         // we are checking to see if the user trying to login already exists
         sql.QueryUserName(username).then((result) =>
