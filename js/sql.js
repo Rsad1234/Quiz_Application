@@ -1,5 +1,4 @@
 var mysql = require("mysql");
-const { doesNotMatch } = require("assert");
 
 var connection = mysql.createConnection({
     host     : 'localhost',
