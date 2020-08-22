@@ -6,6 +6,9 @@ var passport = require("passport");
 var SQL = require('./js/sql')
 let sql = new SQL
 //SQL STOP
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 
 //Engine Configuration START
 var app = express();
@@ -14,22 +17,37 @@ app.set('view engine', 'mustache');
 app.set('views', path.resolve(__dirname, 'mustache'));
 app.set('port', process.env.PORT || 3000);
 app.use(express.urlencoded());
-    //passport initialise START
+//Engine STOP
+// APP SESSION
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(session({ secret: 'keyboard cat' }));
+//END SESSION
+//passport initialise START
 app.use(passport.initialize());
 app.use(passport.session());
 require('./js/passport.js')(passport);
-    //passport STOP
-//Engine STOP
-
+//passport STOP
 
 
 app.get("/", function (request, response)
 {
+    console.log(request.user);
     response.status(200);
     response.type('text/html');
-    response.render("index",
+    if (request.user)
+    {
+        response.render("index",
+        {
+            login: true,
+        });
+    }
+    else
+    {
+        response.render("index",
         {
         });
+    }
 });
 //START LOGIN
 app.get("/login", function (request, response)
