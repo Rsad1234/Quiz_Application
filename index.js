@@ -17,6 +17,7 @@ app.use(express.urlencoded());
     //passport initialise START
 app.use(passport.initialize());
 app.use(passport.session());
+require('./js/passport.js')(passport);
     //passport STOP
 //Engine STOP
 
