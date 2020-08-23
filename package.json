@@ -1,0 +1,35 @@
+{
+  "name": "quiz_application",
+  "version": "1.0.0",
+  "description": "Quiz and Go Quiz Application",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "cookie-parser": "^1.4.5",
+    "mustache-express": "^1.3.0",
+    "mysql": "^2.18.1",
+    "mustache": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "passport": "^0.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rsad1234/Quiz_Application.git"
+  },
+  "keywords": [
+    "Web",
+    "Quiz"
+  ],
+  "author": "Ross Sadler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rsad1234/Quiz_Application/issues"
+  },
+  "homepage": "https://github.com/Rsad1234/Quiz_Application#readme"
+}
