@@ -3,16 +3,18 @@ var mustache = require("mustache-express");
 var path = require("path");
 var passport = require("passport");
 //SQL Initialise START
-var SQL = require('./js/sql')
-let sql = new SQL
+var SQL = require('./js/sql');
+let sql = new SQL;
 //SQL STOP
+var tools = require("./js/customfunctions.js");
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+const { request, response } = require("express");
 
 //Engine Configuration START
 var app = express();
-app.engine('mustache', mustache());
+app.engine('mustache', mustache(__dirname + "/mustache/partials"));
 app.set('view engine', 'mustache');
 app.set('views', path.resolve(__dirname, 'mustache'));
 app.set('port', process.env.PORT || 3000);
@@ -29,34 +31,55 @@ app.use(passport.session());
 require('./js/passport.js')(passport);
 //passport STOP
 
-
-app.get("/", function (request, response)
+app.get("/",async function (request, response)
 {
-    console.log(request.user);
     response.status(200);
-    response.type('text/html');
-    if (request.user)
+    response.type('text/html')
+    sql.QueryQuiz().then((result) =>
     {
-        response.render("index",
+        if(result.length)
         {
-            login: true,
-        });
-    }
-    else
+            console.log(result);
+            if (request.user)
+            {
+                response.render("index",
+                {
+                    login: true,
+                    quizzes: result
+                });
+            }
+            else
+            {
+                response.render("index",
+                {
+                    quizzes: result
+                })
+            }
+        }
+        else
+        {
+            console.log("No Quizzes could be retrieved!")
+        }
+    }).catch((error) =>
     {
-        response.render("index",
-        {
-        });
-    }
+        console.log(error);
+    });
+;
+
 });
 //START LOGIN
-app.get("/login", function (request, response)
+app.get("/login",async function(request, response)
 {
     response.status(200);
     response.type('text/html');
-    response.render("loginpage",
-        {
-        });
+    if (request.user) //LOGGED IN
+    {
+        response.redirect("/")
+    }
+    else //LOGGED OUT
+    {
+        response.render("loginpage")
+    }
 });
 app.post("/login", passport.authenticate('local-login',
 {
@@ -66,10 +89,18 @@ app.post("/login", passport.authenticate('local-login',
 }));
 //END LOGIN
 //START REGISTRATION
-app.get("/register", function(request, response)
+app.get("/register",async function(request, response)
 {
-
-    response.render("registerpage");
+    response.status(200);
+    response.type('text/html');
+    if (request.user) //LOGGED IN
+    {
+        response.redirect("/");
+    }
+    else //LOGGED OUT
+    {
+        response.render("registerpage")
+    }
 
 });
 app.post("/register", passport.authenticate('local-signup',
@@ -81,10 +112,50 @@ app.post("/register", passport.authenticate('local-signup',
 //START Logout
 app.get("/logout", function(request, response)
 {
+    response.status(200);
     request.logout();
     response.redirect('/')
 });
 //END Logout
+//START Private Url
+app.get("/profile",async function(request, response)
+{
+    response.status(200);
+    response.type('text/html');
+    if(request.user) //Logged In
+    {
+        response.redirect(`/profile/${request.user.username}`);
+    }
+    else
+    {
+        response.redirect("/");
+    }
+});
+app.get("/profile/:username", async function(request, response)
+{
+    response.status(200);
+    response.type('text/html');
+    if(request.user) //Logged In
+    {
+        if(request.params.username == request.user.username) //If current user == Selected Profile
+        {
+            response.render("profile",{
+                username: request.params.username,
+                login: true
+            });
+        }
+        else
+        {
+            response.redirect("/");
+        }
+    }
+    else
+    {
+        response.redirect("/");
+    }
+
+});
+//END Private Url
 //404 Page
 app.use(function(request, response)
 {
@@ -97,3 +168,5 @@ app.listen(app.get('port'), function()
 {
     console.log('Server Running, ctrl+c to stop');
 });
+
+
