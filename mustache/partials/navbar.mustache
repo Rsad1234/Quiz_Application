@@ -21,6 +21,9 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/register" id="createAccountButton">Create An Account</a>
                 {{/login}}
+                {{#admin}}
+                    <a class="dropdown-item" href="/admin" id="viewAdminButton">Admin</a>
+                {{/admin}}
             </div>
         </li>
     </ul>
