@@ -24,6 +24,40 @@ class SQL
         });
     }
 
+    async QuizPageQueries(quizid)
+    {
+        var arr = [];
+        arr[0] = await this.QueryQuizId(quizid);
+        arr[1] = await this.QueryQuizQuestions(quizid);
+        return arr;
+    }
+
+    QueryQuizId(quizid)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            var sql = "SELECT * FROM quiz WHERE quiz_id = ?";
+            connection.query(sql, [quizid] , function(err, rows)
+            {
+                if (err)
+                    reject(err);
+                resolve(rows);
+            });
+        });
+    }
+    QueryQuizQuestions(quizid)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            var sql = "SELECT * FROM questions WHERE quiz_id = ?";
+            connection.query(sql, [quizid] , function(err, rows)
+            {
+                if (err)
+                    reject(err);
+                resolve(rows);
+            });
+        });
+    }
     QueryUser(userid)
     {
         return new Promise((resolve, reject) =>
