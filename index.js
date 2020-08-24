@@ -33,26 +33,30 @@ require('./js/passport.js')(passport);
 
 app.get("/",async function (request, response)
 {
+    console.log(new Date().toLocaleString('en-us', {  weekday: 'long' }))
+    console.log();
     response.status(200);
     response.type('text/html')
     sql.QueryQuiz().then((result) =>
     {
         if(result.length)
         {
-            console.log(result);
             if (request.user)
             {
                 response.render("index",
                 {
                     login: true,
-                    quizzes: result
+                    quizzes: result,
+                    admin: request.user.admin,
+                    date: new Date().toLocaleString('en-us',{weekday: 'long'}),
                 });
             }
             else
             {
                 response.render("index",
                 {
-                    quizzes: result
+                    quizzes: result,
+                    date: new Date().toLocaleString('en-us',{weekday: 'long'}),
                 })
             }
         }
@@ -135,27 +139,89 @@ app.get("/profile/:username", async function(request, response)
 {
     response.status(200);
     response.type('text/html');
+    if(request.user && request.params.username == request.user.username) //Logged In & Username == location
+    {
+        response.render("profile",{
+            username: request.user.username,
+            login: true,
+            admin: request.user.admin,
+            date: new Date().toLocaleString('en-us',{weekday: 'long'}),
+        });
+    }
+    else
+    {
+        response.redirect("/");
+    }
+});
+//END Private Url
+//START Quiz Url
+app.get("/quiz/:quizid", async function(request, response)
+{
+    console.log(await sql.QuizPageQueries(1));
+    response.status(200);
+    response.type('text/html');
+    console.log("Hello!");
     if(request.user) //Logged In
     {
-        if(request.params.username == request.user.username) //If current user == Selected Profile
+        var arr = await sql.QuizPageQueries(request.params.quizid)
+        if (arr.length)
         {
-            response.render("profile",{
-                username: request.params.username,
-                login: true
+            response.render("quizpage",
+            {
+                    username: request.user.username,
+                    login: true,
+                    quiz: arr[0],
+                    questions: arr[1],
+                    admin: request.user.admin,
+                    date: new Date().toLocaleString('en-us',{weekday: 'long'}),
             });
         }
         else
         {
-            response.redirect("/");
+            console.log("Error retrieving Quiz!")
         }
     }
     else
     {
         response.redirect("/");
     }
-
 });
-//END Private Url
+//END Quiz Url
+//START Admin Url
+app.get("/admin", async function(request, response)
+{
+    response.status(200);
+    response.type('text/html');
+    console.log(request.user);
+    if(request.user && request.user.admin == 1) //Logged In & admin
+    {
+        response.redirect(`/admin/${request.user.username}`);
+    }
+    else
+    {
+        response.redirect("/");
+    }
+});
+app.get("/admin/:username", async function(request, response)
+{
+    response.status(200);
+    response.type('text/html');
+    if(request.user && request.user.admin == 1 && request.params.username == request.user.username) //Logged In & admin & Username == Location
+    {
+        response.render("admin",
+        {
+            username: request.user.username,
+            login: true,
+            admin: request.user.admin,
+            date: new Date().toLocaleString('en-us',{weekday: 'long'}),
+        });
+    }
+    else
+    {
+        response.redirect("/");
+    }
+});
+//END Admin Url
 //404 Page
 app.use(function(request, response)
 {
