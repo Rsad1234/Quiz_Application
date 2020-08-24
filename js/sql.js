@@ -10,6 +10,20 @@ var connection = mysql.createConnection({
 
 class SQL
 {
+    QueryQuiz()
+    {
+        return new Promise((resolve, reject) =>
+        {
+            var sql = "SELECT * FROM quiz";
+            connection.query(sql ,function(err, rows)
+            {
+                if (err)
+                    reject(err);
+                resolve(rows);
+            });
+        });
+    }
+
     QueryUser(userid)
     {
         return new Promise((resolve, reject) =>

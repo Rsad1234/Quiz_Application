@@ -18,11 +18,11 @@ module.exports = function(passport)
     {
         done(null, user.username);
     });
-    passport.deserializeUser(function(user, done)
+    passport.deserializeUser(function(username, done)
     {
-        sql.QueryUserName(user).then((result) =>
+        sql.QueryUserName(username).then((result) =>
         {
-            done(null, result[0].user_id)
+            done(null, result[0])
         }).catch((error) =>
         {
             console.log(error);
