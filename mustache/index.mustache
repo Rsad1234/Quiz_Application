@@ -7,6 +7,14 @@
     <main role="main" class="container">
         <h1 class="text-dark" id="head">Quiz&Go Quizzes!</h1>
         <h2 class="text-secondary">Date here!!!!!</h2>
+        <div class="d-flex flex-row">
+        <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="max-width: 100%; max-height: 100%;">
+        <h1 class="text-muted" id="head">Quizzes!</h1>
+        {{#quizzes}}
+            {{>quizzes}}
+        {{/quizzes}}
+        </div>
+    </div>
     </main>
     {{>footer}}
 </body>
