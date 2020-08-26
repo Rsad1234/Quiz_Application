@@ -20,7 +20,7 @@ module.exports = function(passport)
     });
     passport.deserializeUser(function(username, done)
     {
-        sql.QueryUserName(username).then((result) =>
+        sql.QueryUserName(username).then(function(result)
         {
             done(null, result[0])
         }).catch((error) =>
@@ -41,7 +41,7 @@ module.exports = function(passport)
     {
         // find a user whose username is the same as the forms username
         // we are checking to see if the user trying to login already exists
-        sql.QueryUserName(username).then((result) =>
+        sql.QueryUserName(username).then(function(result)
         {
             if(!result.length)
             {
@@ -73,7 +73,7 @@ module.exports = function(passport)
     },
     function(req, username, password, done)
     { // callback with username and password from our form
-        sql.QueryUserName(username).then((result) =>
+        sql.QueryUserName(username).then(function(result)
         {
             if(!result.length) //If result has no length in array
             {

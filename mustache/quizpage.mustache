@@ -7,7 +7,7 @@
     {{#quiz}}
         <main role="main" class="container">
             <h1 class="text-dark" id="head">Quiz&Go Quiz Page!</h1>
-            <h2 class="text-secondary">Date here!!!!!</h2>
+            <h2 class="text-secondary">{{date}}</h2>
             <div class="d-flex flex-row">
             <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="width: 100%; height: 100%;">
             <h1 class="text-muted" id="head">{{quiz_label}}!</h1>
@@ -16,10 +16,67 @@
             </div>
         </div>
         </main>
+        <div class="d-none" data-id="{{ quiz_id }}" id="quiz_id"></div>
+        <div class="row mt-1 justify-content-center">
+            {{#items}}
+                <input id="question-{{ question_id }}-correct-answers" type="hidden" value="{{ correct_answer }}">
+                <div class="col-12 col-xl-6 mt-3 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            {{ question }}
+                        </div>
+                        <div class="list-group list-group-flush">
+                            <label class="list-group-item mb-0">Select an answer</label>
+                            {{#answers}}
+                                <div class="custom-control custom-checkbox">
+                                <input name="question-{{ question_id }}-answer-{{ answer_id }}" type="checkbox" class="custom-control-input" id="answer-{{answer_id}}" data-id="{{ answer_id }}" data-question="{{ question_id }}" data-index="{{ answer_index }}">
+                                <label class="custom-control-label" for="answer-{{ answer_id }}">{{ answer }}</label>
+                                </div>
+                            {{/answers}}
+                        </div>
+                    </div>
+                </div>
+            {{/items}}
+        </div>
+        <button class="submit btn-success" id="finish-button" action="quiz/{{ quiz_id }}/finish">Submit</button>
     {{/quiz}}
     {{^quiz}}
         <h1 class="text-dark" id="head">Problem Loading Quiz!!</h1>
     {{/quiz}}
     {{>footer}}
+    <script>
+        function getCheckedAnswers() {
+            let answers = [];
+            let elements = document.querySelectorAll("input[id^='answer-']");
+            elements.forEach(function(element) {
+                if (element.checked) {
+                    if (element.dataset && element.dataset.id && element.dataset.question && element.dataset.index) {
+                        answers.push({ answer_id: element.dataset.id, question_id: element.dataset.question, answer_index: element.dataset.index, correct_answers: document.getElementById("question-" + element.dataset.question + "-correct-answers").value });
+                    }
+                }
+            });
+
+            return answers;
+        }
+
+        document.getElementById("finish-button").addEventListener("click", function(event)
+        {
+            console.log("FINISH BTN CLICKED")
+            let quizElem = document.getElementById("quiz_id");
+
+            if (!quizElem.dataset && !quizElem.dataset.id) return;
+            let answers = getCheckedAnswers();
+            console.log(answers);
+            $.post("/quiz/" + quizElem.dataset.id + "/finish", { answers: answers }, function(data) {
+                if (data) {
+                    if (data.startsWith("/")) {
+                        location.href = data;
+                    } else {
+                        location.reload();
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

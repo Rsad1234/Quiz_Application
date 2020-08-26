@@ -4,43 +4,15 @@
             <div class="card-block px-6">
                 <h4 class="card-title">{{quiz_label}}</h4>
                 <p class="card-text">
-                    {{user_id}}
+                    {{quiz_description}}
                 </p>
                 <br>
-                <a href="/quiz/{{quiz_id}}" class="mt-auto btn btn-primary">Read More</a>
+                <a href="/quiz/{{quiz_id}}" class="mt-auto btn btn-success">Take Quiz</a>
+                {{#admin}}
+                <a href="/quiz/{{quiz_id}}/delete" class="mt-auto btn btn-danger">DELETE Quiz</a>
+                {{/admin}}
             </div>
         </div>
-        <div class="col-md-5">
-            <div id="Quiz" class="carousel slide" data-ride="carousel"">
-                <ol class="carousel-indicators">
-                    <li data-target="#Quiz" data-slide-to="0" class="active"></li>
-                    <li data-target="#Quiz" data-slide-to="1" class=""></li>
-                    {{#admin}}
-                        <li data-target="#Quiz" data-slide-to="2" class=""></li>
-                    {{/admin}}
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <p class="bg-secondary text-light" style="height: 100%; width: 100%;">{{quiz_description}}</p>
-                    </div>
-                    <div class="carousel-item">
-                    <p class="bg-secondary text-light" style="height: 100%; width: 100%;">LOLOLOLLOLOLOLOLOLLOLOLOL</p>
-                    </div>
-                    {{#admin}}
-                    <div class="carousel-item">
-                        <p class="bg-secondary text-light" style="height: 100%; width: 100%;"> ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN </p>
-                    </div>
-                    {{/admin}}
-                    <a class="carousel-control-prev" href="#Quiz" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#Quiz" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>

@@ -1,0 +1,72 @@
+<html lang="en" wtx-context="8CE9F0EC-3347-49B7-AFA2-956C739E15B0">
+<head>
+    {{>header}}
+</head>
+<body id="body">
+    {{>navbar}}
+    <main role="main" class="container">
+        <h1 class="text-dark" id="head">Create a question</h1>
+        <h2 class="text-secondary">{{date}}</h2>
+        <div class="d-flex flex-row">
+        <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="width: 100%; height: 100%;">
+        <h1 class="text-muted" id="head">Enter Question Information Here</h1>
+        <form class="border" action="/admin/{{username}}/create/quiz/questions">
+            <input name="quiz_label" type="hidden" value="{{label}}">
+            <input name="quiz_description" type="hidden" value="{{description}}">
+        {{#quizinfo}}
+                <div class="form-group">
+                    <label for="questionTitleInput">Enter Question {{question_number}}</label>
+                    <input name="question-{{question_number}}" type="text" class="form-control" id="question-{{question_number}}-questionTitleInput" placeholder="Your Question!">
+                </div>
+                    <div class="form-group" id="questionDescriptionTextArea">
+                    <label for="questionDescriptionText">Enter why the answer is correct</label>
+                    <textarea name="question-{{question_number}}-reason" class="form-control" id="question-{{question_number}}-questionDescriptionText" rows="3"></textarea>
+                <div class="form-group">
+                    <label for="question-{{question_number}}-selectAnswers">Select Correct Answer(s)</label>
+                    <select name="question-{{question_number}}-answers" multiple class="form-control" id="question-{{question_number}}-selectAnswers">
+                    <option>1</option>
+                    </select>
+                    <input class="mt-auto btn btn-success" type="button" value="Add another answer" onClick="addInput('question-{{question_number}}-selectAnswers', {{question_number}});">
+                </div>
+                <div class="form-group" id="question-{{question_number}}-answerTextArea">
+                    <label for="question-{{question_number}}-answerText1">Answer 1 Text</label>
+                    <textarea name="question-{{question_number}}-answer-1-text" class="form-control" id="question-{{question_number}}-answerText1" rows="3"></textarea>
+                </div>
+                </div>
+            {{/quizinfo}}
+            <button class="btn-success" type="submit" formmethod="post">Submit Quiz</button>
+        </form>
+        </div>
+    </div>
+    </main>
+    {{>footer}}
+        <script>
+        var counter = [];
+        function addInput(parentName, questionNumber)
+        {
+            console.log(counter[questionNumber]);
+            if(!counter[questionNumber])
+            {
+                counter[questionNumber] = 2;
+            }
+            var newOptionElement = document.createElement('option');
+            newOptionElement.innerHTML = counter[questionNumber];
+            document.getElementById(parentName).appendChild(newOptionElement);
+
+            var newLabelElement = document.createElement('label')
+            newLabelElement.setAttribute("for", "question-"+ questionNumber +"-answerText" + String(counter[questionNumber]));
+            newLabelElement.innerHTML = "Answer " + String(counter[questionNumber]) + " Text";
+            document.getElementById("question-"+ questionNumber +"-answerTextArea").appendChild(newLabelElement);
+
+            var newTextareaElement = document.createElement('textarea');
+            newTextareaElement.setAttribute("class", "form-control");
+            newTextareaElement.setAttribute("id", "question-"+ questionNumber +"-answerText" + String(counter[questionNumber]));
+            newTextareaElement.setAttribute("rows", "3");
+            newTextareaElement.setAttribute("name", "question-"+ questionNumber +"-answer-" + counter[questionNumber] + "-text")
+            document.getElementById("question-"+ questionNumber +"-answerTextArea").appendChild(newTextareaElement);
+
+            counter[questionNumber]++;
+        }
+    </script>
+</body>
+</html>
