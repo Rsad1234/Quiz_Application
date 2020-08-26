@@ -1,11 +1,11 @@
 var mysql = require("mysql");
 
 var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
+    host     : 'j5zntocs2dn6c3fj.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+    user     : 'kxixnwr2jlx82jo3',
+    password : 'gzqbmi5yipdd6wj4',
     port :  '3306',
-    database : 'quiz&godatabase'
+    database : 'p76osxrzt1jscxa3'
   });
 
 class SQL
