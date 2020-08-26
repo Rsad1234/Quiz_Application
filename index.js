@@ -146,7 +146,7 @@ app.get("/",async function (request, response)
     }
     else
     {
-        response.redirect("/login")
+        response.redirect("/login");
     }
 ;
 
@@ -325,7 +325,6 @@ app.get("/admin", async function(request, response)
 {
     response.status(200);
     response.type('text/html');
-    console.log(request.user);
     if(request.user && request.user.admin == 1) //Logged In & admin
     {
         response.redirect(`/admin/${request.user.username}`);
